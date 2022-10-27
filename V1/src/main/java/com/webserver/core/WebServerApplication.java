@@ -1,5 +1,9 @@
 package com.webserver.core;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /*
 *   WebServerApplication是一个web容器，实现Tomcat的基础功能
 *   web容器主要有两个功能:
@@ -10,4 +14,33 @@ package com.webserver.core;
 *
  */
 public class WebServerApplication {
+    private ServerSocket serverSocket;
+
+    // 构造方法初始化服务端,端口为8088
+    public WebServerApplication(){
+        try {
+            System.out.println("正在启动服务端...");
+            serverSocket = new ServerSocket(8088);
+            System.out.println("服务端启动成功！");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void start(){
+        try {
+            System.out.println("等待客户端连接...");
+            Socket socket = serverSocket.accept();
+            System.out.println("一个客户端连接成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void main(String[] args) {
+        WebServerApplication webServer = new WebServerApplication();
+        webServer.start();
+    }
+
 }
